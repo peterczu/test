@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio Tracking Dashboard</title>
+    <title>Huntville Business Synergy - Portfolio Tracking</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -24,9 +24,26 @@
             max-width: 1000px;
             text-align: center;
         }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .logo {
+            font-family: 'Georgia', serif;
+            font-size: 32px;
+            font-weight: bold;
+            color: #4caf50; /* Green */
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .logo span {
+            color: #2196f3; /* Blue */
+        }
         h1 {
             font-size: 28px;
-            margin-bottom: 20px;
+            margin: 0;
             color: #333;
         }
         .chart-container {
@@ -96,8 +113,13 @@
 </head>
 <body>
     <div class="dashboard">
-        <h1>Portfolio Tracking Dashboard</h1>
-        
+        <!-- Header with Text Logo -->
+        <div class="header">
+            <div class="logo">
+                Huntville <span>Business Synergy</span>
+            </div>
+        </div>
+
         <!-- Chart and Table Container -->
         <div class="chart-container">
             <!-- Pie Chart -->
