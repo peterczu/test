@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio Dashboard</title>
+    <title>Portfolio Pie Chart</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -19,7 +19,6 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 300px;
             text-align: center;
         }
         h1 {
@@ -27,21 +26,25 @@
             margin-bottom: 20px;
             color: #333;
         }
-        .progress-container {
-            margin-bottom: 15px;
+        canvas {
+            max-width: 300px;
+            max-height: 300px;
         }
-        .progress-bar {
-            width: 100%;
-            height: 20px;
-            background-color: #e0e0e0;
-            border-radius: 10px;
-            overflow: hidden;
-            position: relative;
+        .legend {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
         }
-        .progress {
-            height: 100%;
-            border-radius: 10px;
-            transition: width 0.5s ease-in-out;
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+        }
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            margin-right: 5px;
         }
         .bonds {
             background-color: #4caf50; /* Green */
@@ -52,40 +55,60 @@
         .crypto {
             background-color: #f44336; /* Red */
         }
-        .label {
-            font-size: 14px;
-            margin-bottom: 5px;
-            color: #555;
-        }
     </style>
 </head>
 <body>
     <div class="dashboard">
         <h1>Portfolio Allocation</h1>
-        
-        <!-- Bonds -->
-        <div class="progress-container">
-            <div class="label">Bonds: 25%</div>
-            <div class="progress-bar">
-                <div class="progress bonds" style="width: 25%;"></div>
+        <canvas id="pieChart"></canvas>
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color bonds"></div>
+                <span>Bonds (25%)</span>
             </div>
-        </div>
-
-        <!-- Equity -->
-        <div class="progress-container">
-            <div class="label">Equity: 40%</div>
-            <div class="progress-bar">
-                <div class="progress equity" style="width: 40%;"></div>
+            <div class="legend-item">
+                <div class="legend-color equity"></div>
+                <span>Equity (40%)</span>
             </div>
-        </div>
-
-        <!-- Crypto -->
-        <div class="progress-container">
-            <div class="label">Crypto: 35%</div>
-            <div class="progress-bar">
-                <div class="progress crypto" style="width: 35%;"></div>
+            <div class="legend-item">
+                <div class="legend-color crypto"></div>
+                <span>Crypto (35%)</span>
             </div>
         </div>
     </div>
+
+    <script>
+        // Data for the pie chart
+        const data = {
+            labels: ['Bonds', 'Equity', 'Crypto'],
+            percentages: [25, 40, 35],
+            colors: ['#4caf50', '#2196f3', '#f44336']
+        };
+
+        // Get the canvas element
+        const canvas = document.getElementById('pieChart');
+        const ctx = canvas.getContext('2d');
+
+        // Set canvas size
+        canvas.width = 300;
+        canvas.height = 300;
+
+        // Draw the pie chart
+        let startAngle = 0;
+        data.percentages.forEach((percentage, index) => {
+            const sliceAngle = (percentage / 100) * 2 * Math.PI;
+
+            // Draw the slice
+            ctx.beginPath();
+            ctx.moveTo(canvas.width / 2, canvas.height / 2);
+            ctx.arc(canvas.width / 2, canvas.height / 2, canvas.width / 2, startAngle, startAngle + sliceAngle);
+            ctx.closePath();
+            ctx.fillStyle = data.colors[index];
+            ctx.fill();
+
+            // Update the start angle for the next slice
+            startAngle += sliceAngle;
+        });
+    </script>
 </body>
 </html>
