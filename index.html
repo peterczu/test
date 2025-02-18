@@ -3,54 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio Pie Chart</title>
+    <title>Portfolio Tracking Dashboard</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
         }
         .dashboard {
             background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 1000px;
             text-align: center;
         }
         h1 {
-            font-size: 24px;
+            font-size: 28px;
             margin-bottom: 20px;
             color: #333;
         }
+        .chart-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
         canvas {
-            max-width: 300px;
-            max-height: 300px;
+            max-width: 400px;
+            max-height: 400px;
+        }
+        .table-container {
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+            color: #555;
         }
         .legend {
             display: flex;
+            flex-wrap: wrap;
             justify-content: center;
             margin-top: 20px;
         }
         .legend-item {
             display: flex;
             align-items: center;
-            margin-right: 15px;
+            margin: 5px 15px;
         }
         .legend-color {
             width: 16px;
             height: 16px;
             border-radius: 50%;
-            margin-right: 5px;
+            margin-right: 8px;
         }
-        .bonds {
+        .stocks {
             background-color: #4caf50; /* Green */
         }
-        .equity {
+        .bonds {
             background-color: #2196f3; /* Blue */
+        }
+        .savings {
+            background-color: #ff9800; /* Orange */
+        }
+        .mutualfunds {
+            background-color: #9c27b0; /* Purple */
+        }
+        .etf {
+            background-color: #ffeb3b; /* Yellow */
         }
         .crypto {
             background-color: #f44336; /* Red */
@@ -59,20 +96,84 @@
 </head>
 <body>
     <div class="dashboard">
-        <h1>Portfolio Allocation</h1>
-        <canvas id="pieChart"></canvas>
+        <h1>Portfolio Tracking Dashboard</h1>
+        
+        <!-- Chart and Table Container -->
+        <div class="chart-container">
+            <!-- Pie Chart -->
+            <canvas id="pieChart"></canvas>
+
+            <!-- Table -->
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Allocation (%)</th>
+                            <th>Value ($)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Stocks</td>
+                            <td>30%</td>
+                            <td>75,000</td>
+                        </tr>
+                        <tr>
+                            <td>Bonds</td>
+                            <td>20%</td>
+                            <td>50,000</td>
+                        </tr>
+                        <tr>
+                            <td>Savings</td>
+                            <td>15%</td>
+                            <td>37,500</td>
+                        </tr>
+                        <tr>
+                            <td>Mutual Funds</td>
+                            <td>15%</td>
+                            <td>37,500</td>
+                        </tr>
+                        <tr>
+                            <td>ETF</td>
+                            <td>10%</td>
+                            <td>25,000</td>
+                        </tr>
+                        <tr>
+                            <td>Crypto</td>
+                            <td>10%</td>
+                            <td>25,000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Legend -->
         <div class="legend">
             <div class="legend-item">
-                <div class="legend-color bonds"></div>
-                <span>Bonds (25%)</span>
+                <div class="legend-color stocks"></div>
+                <span>Stocks (30%)</span>
             </div>
             <div class="legend-item">
-                <div class="legend-color equity"></div>
-                <span>Equity (40%)</span>
+                <div class="legend-color bonds"></div>
+                <span>Bonds (20%)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color savings"></div>
+                <span>Savings (15%)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color mutualfunds"></div>
+                <span>Mutual Funds (15%)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color etf"></div>
+                <span>ETF (10%)</span>
             </div>
             <div class="legend-item">
                 <div class="legend-color crypto"></div>
-                <span>Crypto (35%)</span>
+                <span>Crypto (10%)</span>
             </div>
         </div>
     </div>
@@ -80,9 +181,9 @@
     <script>
         // Data for the pie chart
         const data = {
-            labels: ['Bonds', 'Equity', 'Crypto'],
-            percentages: [25, 40, 35],
-            colors: ['#4caf50', '#2196f3', '#f44336']
+            labels: ['Stocks', 'Bonds', 'Savings', 'Mutual Funds', 'ETF', 'Crypto'],
+            percentages: [30, 20, 15, 15, 10, 10],
+            colors: ['#4caf50', '#2196f3', '#ff9800', '#9c27b0', '#ffeb3b', '#f44336']
         };
 
         // Get the canvas element
@@ -90,8 +191,8 @@
         const ctx = canvas.getContext('2d');
 
         // Set canvas size
-        canvas.width = 300;
-        canvas.height = 300;
+        canvas.width = 400;
+        canvas.height = 400;
 
         // Draw the pie chart
         let startAngle = 0;
